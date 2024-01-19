@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxvbcp2ymfrcf"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_312ao"]
+[ext_resource type="Script" path="res://scripts/synch.gd" id="2_4ykw0"]
+[ext_resource type="Script" path="res://scripts/hp_component.gd" id="3_tgdjr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_72gj7"]
+size = Vector3(1, 0.785645, 1)
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_312ao")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0637207, 0)
+shape = SubResource("BoxShape3D_72gj7")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Model"]
+size = Vector3(1, 0.30835, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.350074, -0.23099, 0)
+size = Vector3(0.24707, 0.198242, 0.929688)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, -0.231, 0)
+size = Vector3(0.24707, 0.198242, 0.929688)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+size = Vector3(0.615234, 0.30835, 0.70874)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.63)
+size = Vector3(0.154541, 0.17749, 0.807861)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5.19287, 6)
+
+[node name="NickName" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 2
+text = "IDK"
+font_size = 64
+
+[node name="Synch" type="Node" parent="."]
+script = ExtResource("2_4ykw0")
+
+[node name="UpdateTime" type="Timer" parent="Synch"]
+wait_time = 0.05
+autostart = true
+
+[node name="HpComponent" type="Node" parent="."]
+script = ExtResource("3_tgdjr")
+
+[connection signal="change_pos" from="." to="Synch" method="_on_player_change_pos"]
+[connection signal="change_rotation" from="." to="Synch" method="_on_player_change_rotation"]
+[connection signal="timeout" from="Synch/UpdateTime" to="Synch" method="_on_update_time_timeout"]
